@@ -12,6 +12,7 @@ Given /the following movies exist/ do |movies_table|
   end
 end
 
-Then /director of "(.*)" should be "(.*)"/ do |movie, director|
-  assert Movie.find_by_title(movie).director.should == director, "The director of #{movie} it is not #{director}"
+Then /^the director of "([^"]*)" should be "([^"]*)"$/ do |title, director|
+  movie = Movie.find_by_title(title)
+  movie.director.should == director
 end

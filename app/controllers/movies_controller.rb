@@ -1,9 +1,8 @@
 class MoviesController < ApplicationController
-
   def show
     id = params[:id] # retrieve movie ID from URI route
     @movie = Movie.find(id) # look up movie by unique ID
-    # will render app/views/movies/show.<extension> by default
+  # will render app/views/movies/show.<extension> by default
   end
 
   def index
@@ -58,4 +57,14 @@ class MoviesController < ApplicationController
     redirect_to movies_path
   end
 
+  def same_director
+    m = Movie.find_by_id(params[:id])
+    @director = m.director
+    if @director.blank?
+      flash[:notice] = "'#{m.title}' has no director info"
+      redirect_to movies_path
+    else
+      @movies = Movie.find_by_director(@director)
+    end
+  end
 end
